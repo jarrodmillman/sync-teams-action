@@ -87,6 +87,9 @@ def get(url, fail_ok=False):
         else:
             more_pages = False
 
+        if isinstance(data, dict):
+            data = [data]
+
         teams.extend(data)
 
     return teams
@@ -227,7 +230,7 @@ for team in config.values():
             f"/orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}",
             fail_ok=True
         )
-        gh_role = response.get("role_name")
+        gh_role = response[0].get("role_name")
 
         if gh_role != role:
             if role is None:
