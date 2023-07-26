@@ -59,7 +59,7 @@ def get(url, fail_ok=False):
 
     page = 1
     more_pages = True
-    data = []
+    teams = []
     while more_pages:
         if page == 1:
             qprint(f'{DARK_GRAY}GET {url}{RESET}')
@@ -69,7 +69,7 @@ def get(url, fail_ok=False):
         r = requests.get(url + f"?page={page}", headers=headers)
 
         try:
-            data.extend(r.json())
+            data = r.json()
         except json.decoder.JSONDecodeError:
             qprint("Error: cannot decode JSON response")
             sys.exit(1)
@@ -87,7 +87,9 @@ def get(url, fail_ok=False):
         else:
             more_pages = False
 
-    return data
+        teams.extend(data)
+
+    return teams
 
 
 def http_method(url, data={}, method=None):
