@@ -59,6 +59,7 @@ def get(url, fail_ok=False):
 
     page = 1
     more_pages = True
+    data = []
     while more_pages:
         if page == 1:
             qprint(f'{DARK_GRAY}GET {url}{RESET}')
@@ -68,7 +69,7 @@ def get(url, fail_ok=False):
         r = requests.get(url + f"?page={page}", headers=headers)
 
         try:
-            data = r.json()
+            data.extend(r.json())
         except json.decoder.JSONDecodeError:
             qprint("Error: cannot decode JSON response")
             sys.exit(1)
